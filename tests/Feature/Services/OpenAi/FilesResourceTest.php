@@ -8,7 +8,7 @@ use OpenAI\Responses\Files\{CreateResponse, DeleteResponse, ListResponse, Retrie
 
 uses()->group('feature', 'services', 'openai');
 
-test('list files', function () {
+test('list files', function (): void {
     OpenAI::fake([
         ListResponse::fake([
             'data' => [
@@ -40,7 +40,7 @@ test('list files', function () {
         ->status->toBe('processed');
 });
 
-test('delete file', function () {
+test('delete file', function (): void {
     OpenAI::fake([
         DeleteResponse::fake([
             'id' => 'file-1',
@@ -54,7 +54,7 @@ test('delete file', function () {
     expect($deleted)->toBeTrue();
 });
 
-test('retrieve file', function () {
+test('retrieve file', function (): void {
     OpenAI::fake([
         RetrieveResponse::fake([
             'id' => 'file-1',
@@ -80,7 +80,7 @@ test('retrieve file', function () {
         ->status->toBe('succeeded');
 });
 
-test('create file', function () {
+test('create file', function (): void {
     OpenAI::fake([
         CreateResponse::fake([
             'id' => 'file-1',
@@ -106,7 +106,7 @@ test('create file', function () {
         ->status->toBe('succeeded');
 });
 
-test('download file', function () {
+test('download file', function (): void {
     OpenAI::fake(['file-1']);
 
     $file = (new OpenAiConnector())->files()->download('file-1');
