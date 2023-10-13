@@ -4,14 +4,14 @@ use App\DTOs\Files\FileData;
 
 uses()->group('unit', 'dtos', 'files');
 
-test('create data', function () {
+test('create data', function (): void {
     $fileDTO = new FileData(
-       'file-1',
-       'file',
-       1564,
-       1695691885,
-       'data.jsonl',
-       'fine-tune',
+        'file-1',
+        'file',
+        1564,
+        1695691885,
+        'data.jsonl',
+        'fine-tune',
         'processed',
     );
 
@@ -25,7 +25,7 @@ test('create data', function () {
         ->status->toBe('processed');
 });
 
-test('create data from array', function () {
+test('create data from array', function (): void {
     $fileDTO = FileData::fromArray([
         'id' => 'file-1',
         'object' => 'file',
@@ -45,4 +45,3 @@ test('create data from array', function () {
         ->purpose->toBe('fine-tune')
         ->status->toBe('processed');
 });
-

@@ -1,13 +1,12 @@
 <?php
 
 use App\DTOs\Files\FileData;
-use App\Services\OpenAi\FilesResource;
-use App\Services\OpenAi\OpenAiConnector;
+use App\Services\OpenAi\{FilesResource, OpenAiConnector};
 use Illuminate\Support\Collection;
-use function Pest\Laravel\get;
-use function Pest\Laravel\partialMock;
 
-it('should handle no files', function () {
+use function Pest\Laravel\{get, partialMock};
+
+it('should handle no files', function (): void {
     ($this->mockFiles)(collect());
 
     get(route('files.index'))
@@ -15,7 +14,7 @@ it('should handle no files', function () {
         ->assertSee('No files found.');
 });
 
-it('should list files', function () {
+it('should list files', function (): void {
     $files = collect([
         new FileData(
             'file-id-1',
@@ -48,7 +47,7 @@ it('should list files', function () {
             now()->subDay()->format('Y-m-d H:i'),
             'file-name-1',
             'fine-tune',
-            'uploaded'
+            'uploaded',
         ])
         ->assertSee([
             'file-id-1',
@@ -57,12 +56,12 @@ it('should list files', function () {
             now()->subDays(2)->format('Y-m-d H:i'),
             'file-name-1',
             'fine-tune',
-            'uploaded'
+            'uploaded',
         ]);
 });
 
-beforeEach(function () {
-    $this->mockFiles = function (Collection $files) {
+beforeEach(function (): void {
+    $this->mockFiles = function (Collection $files): void {
         $mockedResource = partialMock(FilesResource::class);
         $mockedResource->shouldReceive('list')->andReturn($files);
 
