@@ -3,7 +3,9 @@
 namespace App\Services\OpenAi;
 
 use App\DTOs\Files\FileData;
+use App\Exceptions\Services\OpenAi\FileNotFoundException;
 use Illuminate\Support\Collection;
+use OpenAI\Exceptions\ErrorException;
 use OpenAI\Laravel\Facades\OpenAI;
 
 class FilesResource
@@ -22,9 +24,14 @@ class FilesResource
         return $response['deleted'];
     }
 
+    /** @throws FileNotFoundException */
     public function retrieve(string $file): FileData
     {
-        $response = OpenAI::files()->retrieve($file);
+        try {
+            $response = OpenAI::files()->retrieve($file);
+        } catch (ErrorException $exception) {
+            throw new FileNotFoundException($exception->getMessage());
+        }
 
         return FileData::fromArray($response->toArray());
     }
