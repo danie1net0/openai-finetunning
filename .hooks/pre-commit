@@ -1,0 +1,31 @@
+#!/bin/sh
+
+NC='\033[0m'
+BBlue='\033[1;34m'
+BRed='\033[1;31m'
+
+# Check if is merge
+git merge HEAD &> /dev/null
+
+IS_MERGE_PROCESS=$?
+
+if [ $IS_MERGE_PROCESS -ne 0 ];
+  then
+    exit $?
+  fi
+
+# Recover files from staging area
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".php\{0,1\}$")
+
+# Abort if staging area is empty
+if [[ "$STAGED_FILES" = "" ]];
+  then
+    exit 0
+  fi
+
+# 1. Pint
+echo "${BBlue}1. Pint${NC}"
+
+vendor/bin/sail pint --dirty
+
+git add $STAGED_FILES
