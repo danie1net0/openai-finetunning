@@ -1,0 +1,31 @@
+#!/bin/sh
+
+NC='\033[0m'
+BBlue='\033[1;34m'
+BRed='\033[1;31m'
+
+# 1. Pint
+echo "${BBlue}1. Pint${NC}"
+
+vendor/bin/sail pint --test
+
+STATUS_CODE=$?
+
+if [ $STATUS_CODE -ne 0 ]
+  then
+    echo "${BRed}1. There are files with code style inconsistencies${NC}"
+    exit 1
+  fi
+
+# 2. Tests
+echo "${BBlue}2. Tests${NC}"
+
+vendor/bin/sail artisan test --parallel
+
+STATUS_CODE=$?
+
+if [ $STATUS_CODE -ne 0 ]
+  then
+    echo "${BRed}2. There are failed tests${NC}"
+    exit 1
+  fi
