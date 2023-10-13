@@ -1,4 +1,5 @@
 import './bootstrap';
+import './components';
 
 import { Livewire } from '../../vendor/livewire/livewire/dist/livewire.esm';
 

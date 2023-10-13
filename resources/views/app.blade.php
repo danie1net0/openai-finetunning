@@ -14,6 +14,8 @@
   </head>
 
   <body class="h-full">
+    <x-toasts/>
+
     @hasSection('content')
       @yield('content')
     @endif
