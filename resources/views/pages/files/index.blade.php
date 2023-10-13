@@ -2,6 +2,7 @@
 
 use App\Services\OpenAi\OpenAiConnector;
 use App\Support\Views\Actions;
+
 use function Laravel\Folio\name;
 use function Livewire\Volt\{computed, uses, state};
 
@@ -11,7 +12,7 @@ uses([Actions::class]);
 
 $fileResource = computed(fn () => app(OpenAiConnector::class)->files());
 
-$files = computed(fn() => $this->fileResource->list());
+$files = computed(fn () => $this->fileResource->list());
 
 $confirmDelete = fn (string $fileId) => $this->toast()->confirm([
     'title' => 'Delete file',
@@ -62,7 +63,7 @@ $delete = function (string $fileId) {
 
             <x-table.data>
               <button wire:click="confirmDelete('{{ $file->id }}')">
-                Deletar
+                <x-icons.trash class="text-red-500 w-4"/>
               </button>
             </x-table.data>
           </tr>
