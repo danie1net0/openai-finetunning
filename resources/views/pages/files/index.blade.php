@@ -37,8 +37,8 @@ $delete = function (string $fileId) {
         <x-slot name="head">
           <x-table.head title="ID"/>
           <x-table.head title="Object"/>
-          <x-table.head title="Bytes"/>
-          <x-table.head title="Created At"/>
+          <x-table.head title="Size"/>
+          <x-table.head title="Created at"/>
           <x-table.head title="Name"/>
           <x-table.head title="Purpose"/>
           <x-table.head colspan="2" title="Status"/>
@@ -61,7 +61,11 @@ $delete = function (string $fileId) {
             <x-table.data :content="$file->purpose"/>
             <x-table.data :content="$file->status"/>
 
-            <x-table.data>
+            <x-table.data class="flex space-x-2.5">
+              <a href="{{ route('files.show', ['id' => $file->id]) }}">
+                <x-icons.eye class="text-gray-500 w-4"/>
+              </a>
+
               <button wire:click="confirmDelete('{{ $file->id }}')">
                 <x-icons.trash class="text-red-500 w-4"/>
               </button>
@@ -69,6 +73,7 @@ $delete = function (string $fileId) {
           </tr>
         @empty
           <tr>
+            <x-table.data colspan="8" content="No files found."/>
             <x-table.data colspan="8" content="No files found."/>
           </tr>
         @endforelse
