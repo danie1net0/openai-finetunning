@@ -1,6 +1,7 @@
 @props([
     'title',
     'showTitle' => true,
+    'header' => null,
 ])
 
 @extends('app')
@@ -53,11 +54,11 @@
     </nav>
 
     <div class="py-10">
-      @if($title && $showTitle)
+      @if(($title || $header) && $showTitle)
         <header>
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900 mb-3">
-              {{ $title }}
+            <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900 mb-3 flex justify-between">
+              {{ $header ?? $title }}
             </h1>
           </div>
         </header>
