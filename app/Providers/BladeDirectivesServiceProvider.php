@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use function dd;
-use function is_int;
 
 class BladeDirectivesServiceProvider extends ServiceProvider
 {
@@ -14,6 +11,24 @@ class BladeDirectivesServiceProvider extends ServiceProvider
     {
         Blade::directive('dateTime', function ($expression) {
             return "<?php echo Carbon\Carbon::parse($expression)->format('Y-m-d H:i'); ?>";
+        });
+
+        Blade::directive('fileSize', function ($bytes) {
+            return <<<PHP
+                <?php
+
+                if ($bytes == 0) {
+                    echo "0B";
+                    return;
+                }
+
+                \$sizes = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+                \$exponent = floor(log($bytes, 1024));
+
+
+                echo round($bytes / pow(1024, \$exponent), 2) . \$sizes[\$exponent];
+                ?>
+            PHP;
         });
     }
 }
