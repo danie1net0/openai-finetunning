@@ -11,14 +11,14 @@ class JsonLinesRule implements ValidationRule
     {
         $lines = explode("\n", $value->get());
 
-        if (count($lines) < 10) {
-            $fail('The file must have at least 10 lines');
-        }
-
         $emptyLines = collect($lines)->filter(fn (string $line) => $line === '');
 
         if ($emptyLines->count() > 1) {
             $fail('The file contains more than one empty line');
+        }
+
+        if (count($lines) < 11) {
+            $fail('The file must have at least 10 lines');
         }
 
         foreach ($lines as $line) {

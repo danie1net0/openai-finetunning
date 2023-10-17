@@ -22,7 +22,7 @@ test('pass with a valid JSONL', function (): void {
 test('fail with a invalid JSON format', function (): void {
     $lines = collect(['{ name: "Jane", age: 25, city: "Chicago" }']);
 
-    for ($i = 0; $i < 9; $i++) {
+    for ($i = 0; $i < 10; $i++) {
         $lines[] = '{ "name":"John", "age":30, "city": "New York" }';
     }
 
