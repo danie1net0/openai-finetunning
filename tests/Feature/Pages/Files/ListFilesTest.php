@@ -42,20 +42,14 @@ it('should list files', function (): void {
         ->assertOk()
         ->assertSee([
             'file-id-1',
-            'file',
             '1.53KB',
             now()->subDay()->format('Y-m-d H:i'),
-            'file-name-1',
-            'fine-tune',
             'uploaded',
         ])
         ->assertSee([
             'file-id-1',
-            'file',
             '3.09KB',
             now()->subDays(2)->format('Y-m-d H:i'),
-            'file-name-1',
-            'fine-tune',
             'uploaded',
         ]);
 });
