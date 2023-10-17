@@ -1,18 +1,32 @@
 <?php
 
+use App\Enums\Services\OpenAi\TrainingModel;
+use App\Livewire\Forms\JobForm;
 use App\Services\OpenAi\OpenAiConnector;
 use App\Support\Views\Actions;
-use Illuminate\Support\Facades\Storage;
+use App\DTOs\Jobs\CreateJobData;
 
 use function Laravel\Folio\name;
 use function Livewire\Volt\{computed, form, uses};
 
 name('jobs.create');
 uses([Actions::class]);
+form(JobForm::class);
 
-$jobsResource = computed(fn() => app(OpenAiConnector::class)->jobs());
+$files = computed(fn() => app(OpenAiConnector::class)->files()->list()->pluck('id', 'id'));
+
+$models = computed(fn() => collect(TrainingModel::cases())->pluck('value', 'value'));
 
 $save = function () {
+  $jobData = new CreateJobData(...$this->form->validate());
+
+  try {
+      app(OpenAiConnector::class)->jobs()->create($jobData);
+
+      $this->toast()->success('Success!', 'Job created successfully!');
+  } catch (Throwable $exception) {
+      $this->toast()->error('Error!', $exception->getMessage());
+  }
 }
 
 ?>
@@ -30,7 +44,25 @@ $save = function () {
         </p>
       </div>
 
-      <div class="border-t border-gray-100 p-4">
+      <div class="border-t border-gray-100 p-4 flex flex-col gap-4">
+        <x-forms.select
+          required name="file"
+          label="File"
+          placeholder="Select a file"
+          :options="$this->files"
+          wire:model="form.file"
+        />
+
+        <x-forms.select
+          required
+          name="model"
+          label="Model"
+          placeholder="Select a model"
+          :options="$this->models"
+          wire:model="form.model"
+        />
+
+        <x-forms.input required type="number" min="10" name="epochs" label="Number of epochs" wire:model="form.epochs"/>
       </div>
 
       <div class="border-t border-gray-100 flex justify-end p-4">
