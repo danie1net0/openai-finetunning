@@ -4,19 +4,33 @@
     'header' => null,
 ])
 
-@extends('app')
+  <!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-gray-100">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section('title', $title)
+  <title>{{ config('app.name') }} - {{ $title }}</title>
 
-@section('content')
-  <div class="min-h-full">
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
+
+  @livewireStyles
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+  <body class="min-h-full">
+    <x-toasts/>
+
     <nav class="bg-white shadow-sm" x-data="{ showNav: false }">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 justify-between">
           <div class="flex">
             <div class="flex flex-shrink-0 items-center">
-              <img class="block h-8 w-auto lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-              <img class="hidden h-8 w-auto lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+              <img class="block h-8 w-auto lg:hidden"
+                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+              <img class="hidden h-8 w-auto lg:block"
+                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
             </div>
 
             <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
@@ -64,11 +78,11 @@
         </header>
       @endif
 
-      <main>
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          {{ $slot }}
-        </div>
+      <main class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        {{ $slot }}
       </main>
     </div>
-  </div>
-@endsection
+
+    @livewireScriptConfig
+  </body>
+</html>
