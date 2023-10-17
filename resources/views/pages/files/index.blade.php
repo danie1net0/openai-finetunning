@@ -30,9 +30,15 @@ $delete = function (string $fileId) {
 
 ?>
 
-<div>
+<div x-data>
   <x-layouts.dashboard title="Files">
     @volt()
+      <x-slot name="header">
+        Files
+
+        <x-button icon="plus" content="File" x-on:click="location.href='{{ route('files.create') }}'"/>
+      </x-slot>
+
       <x-table>
         <x-slot name="head">
           <x-table.head title="ID"/>
@@ -73,7 +79,6 @@ $delete = function (string $fileId) {
           </tr>
         @empty
           <tr>
-            <x-table.data colspan="8" content="No files found."/>
             <x-table.data colspan="8" content="No files found."/>
           </tr>
         @endforelse
