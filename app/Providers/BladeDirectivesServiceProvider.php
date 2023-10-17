@@ -31,5 +31,7 @@ class BladeDirectivesServiceProvider extends ServiceProvider
                 ?>
             PHP;
         });
+
+        Blade::directive('splitArray', fn ($expression) => "<?php echo collect({$expression})->join(', '); ?>");
     }
 }

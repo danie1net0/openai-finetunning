@@ -2,7 +2,7 @@
 
 use App\DTOs\Jobs\OutputJobData;
 use App\Enums\Services\OpenAi\JobStatus;
-use App\Services\OpenAi\{jobsResource, OpenAiConnector};
+use App\Services\OpenAi\{JobsResource, OpenAiConnector};
 use Illuminate\Support\Collection;
 
 use function Pest\Laravel\{get, instance, partialMock};
