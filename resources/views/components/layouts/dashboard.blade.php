@@ -4,20 +4,27 @@
     'header' => null,
 ])
 
-  <!DOCTYPE html>
+@php
+    $headerItems = [
+        ['title' => 'Files', 'routeName' => 'files.index'],
+        ['title' => 'Jobs', 'routeName' => 'jobs.index'],
+    ];
+@endphp
+
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-gray-100">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{{ config('app.name') }} - {{ $title }}</title>
+    <title>{{ config('app.name') }} - {{ $title }}</title>
 
-  <link rel="preconnect" href="https://fonts.bunny.net">
-  <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
 
-  @livewireStyles
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+    @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+  </head>
 
   <body class="min-h-full">
     <x-toasts/>
@@ -34,11 +41,13 @@
             </div>
 
             <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-              <x-nav-link
-                title="Files"
-                :active="request()->routeIs('files.index')"
-                :route="route('files.index')"
-              />
+              @foreach($headerItems as $item)
+                <x-nav-link
+                  :title="$item['title']"
+                  :active="request()->routeIs($item['routeName'])"
+                  :route="route($item['routeName'])"
+                />
+              @endforeach
             </div>
           </div>
 
@@ -57,12 +66,14 @@
 
       <div class="sm:hidden" id="mobile-menu" x-transition x-show="showNav">
         <div class="space-y-1 pb-3 pt-2">
-          <x-nav-link
-            title="Files"
-            :active="request()->routeIs('files.index')"
-            :route="route('files.index')"
-            :mobile="true"
-          />
+          @foreach($headerItems as $item)
+            <x-nav-link
+              :title="$item['title']"
+              :active="request()->routeIs($item['routeName'])"
+              :route="route($item['routeName'])"
+              :mobile="true"
+            />
+          @endforeach
         </div>
       </div>
     </nav>

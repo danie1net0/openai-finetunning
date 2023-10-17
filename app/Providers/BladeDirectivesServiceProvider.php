@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\Services\OpenAi\JobStatus;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -9,6 +10,8 @@ class BladeDirectivesServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        Blade::stringable(fn (JobStatus $enum) => str($enum->value)->ucfirst());
+
         Blade::directive('dateTime', fn ($expression) => "<?php echo Carbon\Carbon::parse({$expression})->format('Y-m-d H:i'); ?>");
 
         Blade::directive('fileSize', function ($bytes) {
